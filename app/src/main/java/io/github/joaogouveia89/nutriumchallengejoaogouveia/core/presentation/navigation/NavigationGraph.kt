@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.ProfessionalListScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
@@ -13,7 +14,7 @@ fun NavigationGraph(navController: NavHostController) {
         startDestination = Routes.PROFESSIONALS_LIST_ROUTE
     ) {
         composable(Routes.PROFESSIONALS_LIST_ROUTE) {
-            Text("PROFESSIONALS_LIST_ROUTE")
+            ProfessionalListScreen()
         }
     }
 }
