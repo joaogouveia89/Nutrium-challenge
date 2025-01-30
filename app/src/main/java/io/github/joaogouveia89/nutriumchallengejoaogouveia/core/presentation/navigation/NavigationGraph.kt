@@ -1,6 +1,5 @@
 package io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost

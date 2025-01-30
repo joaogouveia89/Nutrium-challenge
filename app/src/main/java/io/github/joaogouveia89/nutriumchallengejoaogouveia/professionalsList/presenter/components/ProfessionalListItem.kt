@@ -1,6 +1,5 @@
-package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter
+package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components
 
-import android.widget.RatingBar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +17,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ProfessionalRatingBar
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ExpertiseBadge
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.Languages
 
 @Composable
 fun ProfessionalListItem(
@@ -35,45 +32,46 @@ fun ProfessionalListItem(
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(12.dp),
     ) {
-       Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)) {
-           Row {
-               Column(Modifier.padding(bottom = 12.dp)) {
-                   AsyncImage(
-                       modifier = Modifier
-                           .size(80.dp),
-                       model = professional.profilePictureUrl,
-                       contentDescription = null
-                   )
-               }
-               Column(
-                   modifier = Modifier.padding(start = 12.dp)
-               ) {
-                   Text(
-                       professional.name,
-                       style = MaterialTheme.typography.titleLarge
-                   )
-                   ProfessionalRatingBar(
-                       modifier = Modifier.padding(top = 8.dp),
-                       rating = professional.rating,
-                       ratingCount = professional.ratingCount
-                   )
-                   Languages(
-                       modifier = Modifier.padding(top = 8.dp),
-                       languages = professional.languages.joinToString(", ")
-                   )
-               }
-           }
-           Row(modifier = Modifier.padding(top = 12.dp)) {
-               professional.expertise.forEach {
-                   ExpertiseBadge(
-                       modifier = Modifier.padding(horizontal = 8.dp),
-                       text = it
-                   )
-               }
-           }
-       }
+        Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)) {
+            Row {
+                Column(Modifier.padding(bottom = 12.dp)) {
+                    AsyncImage(
+                        modifier = Modifier
+                            .size(80.dp),
+                        model = professional.profilePictureUrl,
+                        contentDescription = null
+                    )
+                }
+                Column(
+                    modifier = Modifier.padding(start = 12.dp)
+                ) {
+                    Text(
+                        professional.name,
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    ProfessionalRatingBar(
+                        modifier = Modifier.padding(top = 8.dp),
+                        rating = professional.rating,
+                        ratingCount = professional.ratingCount
+                    )
+                    Languages(
+                        modifier = Modifier.padding(top = 8.dp),
+                        languages = professional.languages.joinToString(", ")
+                    )
+                }
+            }
+            Row(modifier = Modifier.padding(top = 12.dp)) {
+                professional.expertise.forEach {
+                    ExpertiseBadge(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        text = it
+                    )
+                }
+            }
+        }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 private fun ProfessionalListItemPreview() {

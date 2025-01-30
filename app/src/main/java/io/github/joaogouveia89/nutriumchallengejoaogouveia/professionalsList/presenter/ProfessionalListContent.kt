@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
 
 @Composable
 fun ProfessionalListContent() {
@@ -52,7 +53,7 @@ fun ProfessionalListContent() {
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(professionals){
+        items(professionals) {
             ProfessionalListItem(it)
         }
     }
