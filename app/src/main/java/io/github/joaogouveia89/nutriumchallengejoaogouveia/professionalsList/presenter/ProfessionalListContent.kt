@@ -10,50 +10,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
 
 @Composable
-fun ProfessionalListContent() {
-    val professionals = listOf(
-        Professional(
-            aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
-            expertise = listOf(
-                "Sports Nutrition",
-                "Weight Gain"
-            ),
-            id = 1,
-            languages = listOf(
-                "German",
-                "Portuguese",
-                "English"
-            ),
-            name = "Emma Williams",
-            profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
-            rating = 3,
-            ratingCount = 80
-        ),
-        Professional(
-            aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
-            expertise = listOf(
-                "Sports Nutrition",
-                "Weight Gain"
-            ),
-            id = 1,
-            languages = listOf(
-                "German",
-                "Portuguese",
-                "English"
-            ),
-            name = "Emma Williams",
-            profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
-            rating = 4,
-            ratingCount = 80
-        )
-    )
+fun ProfessionalListContent(
+    uiState: ProfessionalListUiState
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(professionals) {
+        items(uiState.professionals) {
             ProfessionalListItem(it)
         }
     }
@@ -63,5 +30,44 @@ fun ProfessionalListContent() {
 @Preview(showBackground = true)
 @Composable
 private fun ProfessionalListContentPreview() {
-    ProfessionalListContent()
+    ProfessionalListContent(
+        uiState = ProfessionalListUiState(
+            professionals = listOf(
+                Professional(
+                    aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
+                    expertise = listOf(
+                        "Sports Nutrition",
+                        "Weight Gain"
+                    ),
+                    id = 1,
+                    languages = listOf(
+                        "German",
+                        "Portuguese",
+                        "English"
+                    ),
+                    name = "Emma Williams",
+                    profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
+                    rating = 3,
+                    ratingCount = 80
+                ),
+                Professional(
+                    aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
+                    expertise = listOf(
+                        "Sports Nutrition",
+                        "Weight Gain"
+                    ),
+                    id = 1,
+                    languages = listOf(
+                        "German",
+                        "Portuguese",
+                        "English"
+                    ),
+                    name = "Emma Williams",
+                    profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
+                    rating = 4,
+                    ratingCount = 80
+                )
+            )
+        )
+    )
 }
