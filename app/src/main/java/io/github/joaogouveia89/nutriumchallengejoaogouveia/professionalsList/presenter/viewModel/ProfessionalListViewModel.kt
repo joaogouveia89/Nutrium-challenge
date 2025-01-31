@@ -32,13 +32,18 @@ class ProfessionalListViewModel @Inject constructor(
     private fun getProfessionals(){
         viewModelScope.launch {
             professionalsRepository.getProfessionals().collect{
-                if(it is GetProfessionalsState.Success){
-                    val professionals = it.professionals
-                    _uiState.update {state ->
-                        state.copy(
-                            professionals = professionals
+
+                when(it){
+                    is GetProfessionalsState.Loading -> _uiState.update {
+                        ProfessionalListUiState(isLoading = true)
+                    }
+                    is GetProfessionalsState.Success -> _uiState.update {state ->
+                        ProfessionalListUiState(
+                            professionals = it.professionals
                         )
                     }
+
+                    GetProfessionalsState.Error -> ProfessionalListUiState()
                 }
             }
         }
