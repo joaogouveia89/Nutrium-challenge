@@ -31,15 +31,15 @@ class ProfessionalListViewModel @Inject constructor(
 
     private fun getProfessionals(){
         viewModelScope.launch {
-            professionalsRepository.getProfessionals().collect{
+            professionalsRepository.getProfessionals().collect{ getProfessionalsState ->
 
-                when(it){
+                when(getProfessionalsState){
                     is GetProfessionalsState.Loading -> _uiState.update {
                         ProfessionalListUiState(isLoading = true)
                     }
-                    is GetProfessionalsState.Success -> _uiState.update {state ->
+                    is GetProfessionalsState.Success -> _uiState.update {
                         ProfessionalListUiState(
-                            professionals = it.professionals
+                            professionals = getProfessionalsState.professionals
                         )
                     }
 
