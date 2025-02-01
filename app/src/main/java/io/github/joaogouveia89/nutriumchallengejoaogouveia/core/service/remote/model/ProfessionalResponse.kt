@@ -2,7 +2,7 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote.
 
 import com.google.gson.annotations.SerializedName
 
-data class ProfessionalRemote(
+data class ProfessionalResponse(
     @SerializedName("about_me") val aboutMe: String,
     @SerializedName("expertise") val expertise: List<String>,
     @SerializedName("id") val id: Long,

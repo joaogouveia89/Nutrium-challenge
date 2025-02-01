@@ -1,7 +1,7 @@
 package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.mapper
 
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote.model.ProfessionalRemote
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote.model.ProfessionalResponse
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote.model.ProfessionalsSearchResponse
 
 fun ProfessionalsSearchResponse.responseAsProfessionals(): List<Professional> =
@@ -9,7 +9,7 @@ fun ProfessionalsSearchResponse.responseAsProfessionals(): List<Professional> =
         it.asProfessional()
     }
 
-fun ProfessionalRemote.asProfessional(): Professional =
+fun ProfessionalResponse.asProfessional(): Professional =
     Professional(
         id = id,
         name = name,

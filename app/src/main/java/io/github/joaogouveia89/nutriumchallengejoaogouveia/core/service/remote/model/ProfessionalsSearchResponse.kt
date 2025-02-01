@@ -6,5 +6,5 @@ data class ProfessionalsSearchResponse(
     @SerializedName("count") val count: Int,
     @SerializedName("limit") val limit: Int,
     @SerializedName("offset") val offset: Int,
-    @SerializedName("professionals") val professionals: List<ProfessionalRemote>,
+    @SerializedName("professionals") val professionals: List<ProfessionalResponse>,
 )
