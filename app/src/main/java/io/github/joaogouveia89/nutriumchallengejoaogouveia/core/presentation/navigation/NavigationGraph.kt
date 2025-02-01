@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.presenter.ProfessionalDetailsScreen
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.presenter.viewModel.ProfessionalDetailsCommand
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.presenter.viewModel.ProfessionalDetailsViewModel
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.ProfessionalListScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.viewModel.ProfessionalListCommand
@@ -56,6 +57,10 @@ fun NavigationGraph(navController: NavHostController) {
 
             // Added this variable here to be easier to change to view model control in the future if it makes sense
             var isAboutMeExpanded by rememberSaveable { mutableStateOf(false) }
+
+            LaunchedEffect(uiState.professional) {
+                viewModel.execute(ProfessionalDetailsCommand.GetProfessionalDetails)
+            }
 
             ProfessionalDetailsScreen(
                 uiState = uiState,

@@ -3,6 +3,7 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote.model.ProfessionalResponse
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote.model.ProfessionalsSearchResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface NutriumService {
     // TODO Add pagination
@@ -11,6 +12,5 @@ interface NutriumService {
     ): ProfessionalsSearchResponse
 
     @GET("/professionals/{id}")
-    suspend fun getProfessional(id: Long
-    ): ProfessionalResponse
+    suspend fun getProfessional(@Path("id") id: Long): ProfessionalResponse
 }
