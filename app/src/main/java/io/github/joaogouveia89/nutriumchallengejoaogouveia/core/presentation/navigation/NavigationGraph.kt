@@ -65,7 +65,7 @@ fun NavigationGraph(navController: NavHostController) {
             ProfessionalDetailsScreen(
                 uiState = uiState,
                 isAboutMeExpanded = isAboutMeExpanded,
-                onAboutMeExpandCollapseClick = { isAboutMeExpanded = !isAboutMeExpanded}
+                onAboutMeExpandCollapseClick = { isAboutMeExpanded = !isAboutMeExpanded }
             )
         }
     }

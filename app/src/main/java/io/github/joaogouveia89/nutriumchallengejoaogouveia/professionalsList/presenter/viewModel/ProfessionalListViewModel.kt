@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfessionalListViewModel @Inject constructor(
     private val professionalsRepository: ProfessionalsRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfessionalListUiState())
 
@@ -29,14 +29,15 @@ class ProfessionalListViewModel @Inject constructor(
         }
     }
 
-    private fun getProfessionals(){
+    private fun getProfessionals() {
         viewModelScope.launch {
-            professionalsRepository.getProfessionals().collect{ getProfessionalsState ->
+            professionalsRepository.getProfessionals().collect { getProfessionalsState ->
 
-                when(getProfessionalsState){
+                when (getProfessionalsState) {
                     is GetProfessionalsState.Loading -> _uiState.update {
                         ProfessionalListUiState(isLoading = true)
                     }
+
                     is GetProfessionalsState.Success -> _uiState.update {
                         ProfessionalListUiState(
                             professionals = getProfessionalsState.professionals

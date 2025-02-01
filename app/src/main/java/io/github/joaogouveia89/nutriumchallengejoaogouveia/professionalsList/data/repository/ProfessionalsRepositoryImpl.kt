@@ -12,7 +12,7 @@ import javax.inject.Inject
 class ProfessionalsRepositoryImpl @Inject constructor(
     private val professionalsRemoteSource: ProfessionalsRemoteSource,
     private val dispatcher: CoroutineDispatcher
-): ProfessionalsRepository {
+) : ProfessionalsRepository {
     override suspend fun getProfessionals(): Flow<GetProfessionalsState> = flow {
         emit(GetProfessionalsState.Loading)
         emit(GetProfessionalsState.Success(professionalsRemoteSource.getProfessionals()))

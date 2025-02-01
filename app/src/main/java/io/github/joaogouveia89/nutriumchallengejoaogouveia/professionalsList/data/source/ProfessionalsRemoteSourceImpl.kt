@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ProfessionalsRemoteSourceImpl @Inject constructor(
     private val nutriumService: NutriumService
-): ProfessionalsRemoteSource {
+) : ProfessionalsRemoteSource {
     override suspend fun getProfessionals(): List<Professional> {
         return nutriumService
             .getProfessionals()

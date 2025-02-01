@@ -14,7 +14,7 @@ fun ProfessionalListScreen(
     uiState: ProfessionalListUiState,
     onProfessionalClick: (Professional) -> Unit
 ) {
-    if(uiState.isLoading){
+    if (uiState.isLoading) {
         Box(
             modifier = Modifier
                 .fillMaxSize(),
@@ -22,7 +22,7 @@ fun ProfessionalListScreen(
         ) {
             CircularProgressIndicator()
         }
-    }else{
+    } else {
         ProfessionalListContent(
             uiState = uiState,
             onProfessionalClick = onProfessionalClick
