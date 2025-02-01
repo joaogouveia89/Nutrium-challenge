@@ -32,7 +32,8 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.ktx
 fun ProfessionalDetailsContent(
     professional: Professional,
     isAboutMeExpanded: Boolean,
-    onAboutMeExpandCollapseClick: () -> Unit
+    onAboutMeExpandCollapseClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -47,6 +48,8 @@ fun ProfessionalDetailsContent(
         ) {
             Column {
                 Icon(
+                    modifier = Modifier
+                        .clickable { onBackClick() },
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back"
                 )
@@ -124,6 +127,7 @@ private fun ProfessionalDetailsContentPreview() {
             languages = listOf("lan1", "lan2", "lan3")
         ),
         isAboutMeExpanded = false,
-        onAboutMeExpandCollapseClick = {}
+        onAboutMeExpandCollapseClick = {},
+        onBackClick = {}
     )
 }

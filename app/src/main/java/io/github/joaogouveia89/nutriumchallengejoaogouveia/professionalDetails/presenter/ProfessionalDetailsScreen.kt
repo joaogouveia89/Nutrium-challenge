@@ -12,7 +12,8 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.p
 fun ProfessionalDetailsScreen(
     uiState: ProfessionalDetailsUiState,
     isAboutMeExpanded: Boolean,
-    onAboutMeExpandCollapseClick: () -> Unit
+    onAboutMeExpandCollapseClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     if (uiState.isLoading) {
         Box(
@@ -26,7 +27,8 @@ fun ProfessionalDetailsScreen(
         ProfessionalDetailsContent(
             professional = uiState.professional,
             isAboutMeExpanded = isAboutMeExpanded,
-            onAboutMeExpandCollapseClick = onAboutMeExpandCollapseClick
+            onAboutMeExpandCollapseClick = onAboutMeExpandCollapseClick,
+            onBackClick = onBackClick
         )
     }
 }
