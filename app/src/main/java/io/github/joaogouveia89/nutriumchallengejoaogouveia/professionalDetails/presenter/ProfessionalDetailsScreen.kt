@@ -9,18 +9,8 @@ fun ProfessionalDetailsScreen(
     isAboutMeExpanded: Boolean,
     onAboutMeExpandCollapseClick: () -> Unit
 ) {
-//    val profissional = Professional(
-//        id = 1,
-//        name = "John",
-//        profilePictureUrl = "",
-//        rating = 3,
-//        ratingCount = 21,
-//        aboutMe = "",
-//        expertise = listOf("exp1", "exp2", "exp3"),
-//        languages = listOf("lan1", "lan2", "lan3")
-//    )
-
     val professional = uiState.professional
+
     ProfessionalDetailsContent(
         professional,
         isAboutMeExpanded = isAboutMeExpanded,

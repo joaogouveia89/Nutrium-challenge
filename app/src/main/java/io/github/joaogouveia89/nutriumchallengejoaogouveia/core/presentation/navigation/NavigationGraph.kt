@@ -9,8 +9,10 @@ import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.presenter.ProfessionalDetailsScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.presenter.viewModel.ProfessionalDetailsViewModel
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.ProfessionalListScreen
@@ -33,11 +35,22 @@ fun NavigationGraph(navController: NavHostController) {
             }
 
             ProfessionalListScreen(
-                uiState = uiState
+                uiState = uiState,
+                onProfessionalClick = {
+                    navController.navigate(ProfessionalDetailsNav.passProfessionalId(professionalId = it.id))
+                }
             )
         }
 
-        composable(Routes.PROFESSIONAL_DETAIL_ROUTE) {
+        composable(
+            ProfessionalDetailsNav.route,
+            arguments = listOf(
+                navArgument(ProfessionalDetailsNav.professionalIdIdentifier) {
+                    type = NavType.LongType
+                    defaultValue = 0L
+                }
+            )
+        ) {
             val viewModel: ProfessionalDetailsViewModel = hiltViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

@@ -1,5 +1,6 @@
 package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,12 +21,16 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.com
 
 @Composable
 fun ProfessionalListItem(
-    professional: Professional
+    professional: Professional,
+    onProfessionalClick: (Professional) -> Unit
 ) {
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                onProfessionalClick(professional)
+            },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
@@ -92,6 +97,7 @@ private fun ProfessionalListItemPreview() {
             profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
             rating = 3,
             ratingCount = 80
-        )
+        ),
+        onProfessionalClick = {}
     )
 }

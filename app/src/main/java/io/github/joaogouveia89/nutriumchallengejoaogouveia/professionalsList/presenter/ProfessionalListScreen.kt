@@ -6,10 +6,14 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
 
 @Composable
-fun ProfessionalListScreen(uiState: ProfessionalListUiState) {
+fun ProfessionalListScreen(
+    uiState: ProfessionalListUiState,
+    onProfessionalClick: (Professional) -> Unit
+) {
     if(uiState.isLoading){
         Box(
             modifier = Modifier
@@ -20,7 +24,8 @@ fun ProfessionalListScreen(uiState: ProfessionalListUiState) {
         }
     }else{
         ProfessionalListContent(
-            uiState = uiState
+            uiState = uiState,
+            onProfessionalClick = onProfessionalClick
         )
     }
 }

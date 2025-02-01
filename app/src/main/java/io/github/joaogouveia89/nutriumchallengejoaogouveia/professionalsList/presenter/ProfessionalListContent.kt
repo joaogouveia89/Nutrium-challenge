@@ -14,14 +14,18 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.pre
 
 @Composable
 fun ProfessionalListContent(
-    uiState: ProfessionalListUiState
+    uiState: ProfessionalListUiState,
+    onProfessionalClick: (Professional) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(uiState.professionals) {
-            ProfessionalListItem(it)
+            ProfessionalListItem(
+                it,
+                onProfessionalClick = onProfessionalClick
+            )
         }
     }
 
@@ -68,6 +72,7 @@ private fun ProfessionalListContentPreview() {
                     ratingCount = 80
                 )
             )
-        )
+        ),
+        onProfessionalClick = {}
     )
 }
