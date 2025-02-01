@@ -2,6 +2,6 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.
 
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 
-interface ProfessionalRemoteSource {
+interface ProfessionalDetailsRemoteSource {
     suspend fun getProfessionalDetails(id: Long): Professional
 }

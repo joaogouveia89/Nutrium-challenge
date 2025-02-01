@@ -2,6 +2,6 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.
 
 import kotlinx.coroutines.flow.Flow
 
-interface ProfessionalRepository {
+interface ProfessionalDetailsRepository {
     suspend fun getDetails(id: Long): Flow<GetDetailsState>
 }
