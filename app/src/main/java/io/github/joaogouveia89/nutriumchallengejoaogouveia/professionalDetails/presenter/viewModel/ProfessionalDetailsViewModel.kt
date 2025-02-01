@@ -37,8 +37,14 @@ class ProfessionalDetailsViewModel @Inject constructor(
         professionalId?.let { id ->
             viewModelScope.launch {
                 repository.getDetails(id).collect {
-                    if (it is GetDetailsState.Success) {
-                        _uiState.update { _ ->
+                    when (it) {
+                        is GetDetailsState.Loading -> _uiState.update {
+                            ProfessionalDetailsUiState(
+                                isLoading = true
+                            )
+                        }
+
+                        is GetDetailsState.Success -> _uiState.update { _ ->
                             ProfessionalDetailsUiState(
                                 professional = it.professional
                             )

@@ -58,7 +58,7 @@ fun NavigationGraph(navController: NavHostController) {
             // Added this variable here to be easier to change to view model control in the future if it makes sense
             var isAboutMeExpanded by rememberSaveable { mutableStateOf(false) }
 
-            LaunchedEffect(uiState.professional) {
+            LaunchedEffect(Unit) {
                 viewModel.execute(ProfessionalDetailsCommand.GetProfessionalDetails)
             }
 
