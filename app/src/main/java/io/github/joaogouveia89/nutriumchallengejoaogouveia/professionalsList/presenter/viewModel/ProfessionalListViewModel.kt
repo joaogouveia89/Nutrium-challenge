@@ -2,16 +2,14 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.pr
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.domain.repository.GetProfessionalsState
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.domain.repository.ProfessionalsRepository
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,24 +36,27 @@ class ProfessionalListViewModel @Inject constructor(
 
     fun execute(command: ProfessionalListCommand) {
         when (command) {
-            is ProfessionalListCommand.GetProfessionals -> viewModelScope.launch {
-                getProfessionals()
-            }
-
+            is ProfessionalListCommand.GetProfessionals -> getProfessionals()
             is ProfessionalListCommand.ChangeFilterType -> changeFilterType(command.filterTypeId)
             is ProfessionalListCommand.DismissError -> {}
         }
     }
 
-    private suspend fun getProfessionals() {
-        professionalsRepository
-            .getProfessionals(
-                filterType = _uiState.value.filterType.apiIdentifier
+    private fun getProfessionals() {
+        _uiState.update { it.copy(isLoading = true) }
+
+        val professionalsPagingFlow = professionalsRepository.getProfessionals(
+            filterType = _uiState.value.filterType.apiIdentifier,
+            pagingConfig = PagingConfig(pageSize = 4, initialLoadSize = 4)
+        ).cachedIn(viewModelScope)
+
+        _uiState.update {
+            it.copy(
+                professionals = professionalsPagingFlow,
+                isLoading = false
             )
-            .map(::getProfessionalsToUiState)
-            .collect { getProfessionalsState ->
-                _uiState.update { getProfessionalsState }
-            }
+        }
+
     }
 
     private fun changeFilterType(filterTypeId: Int) {
@@ -64,22 +65,7 @@ class ProfessionalListViewModel @Inject constructor(
         }
         filterType?.let { ft ->
             _uiState.update { it.copy(filterType = ft) }
-
-            viewModelScope.launch {
-                getProfessionals()
-            }
-        }
-    }
-
-    private fun getProfessionalsToUiState(getProfessionalsState: GetProfessionalsState): ProfessionalListUiState {
-        return when (getProfessionalsState) {
-            is GetProfessionalsState.Loading -> _uiState.value.copy(isLoading = true)
-            is GetProfessionalsState.Success -> _uiState.value.copy(
-                professionals = getProfessionalsState.professionals,
-                isLoading = false
-            )
-
-            is GetProfessionalsState.Error -> ProfessionalListUiState()
+            getProfessionals()
         }
     }
 }

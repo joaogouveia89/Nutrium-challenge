@@ -8,9 +8,11 @@ import retrofit2.http.Query
 
 interface NutriumService {
     // TODO Add pagination
-    @GET("/professionals/search?limit=4&offset=0")
+    @GET("/professionals/search")
     suspend fun getProfessionals(
-        @Query("sort_by") filterType: String
+        @Query("sort_by") filterType: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
     ): ProfessionalsSearchResponse
 
     @GET("/professionals/{id}")

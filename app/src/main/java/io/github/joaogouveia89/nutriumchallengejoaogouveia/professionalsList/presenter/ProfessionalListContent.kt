@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,10 +21,13 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.MultipleChoiceSelect
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ProfessionalListContent(
@@ -35,6 +37,8 @@ fun ProfessionalListContent(
     onFilterTypeSelected: (Int) -> Unit
 ) {
     var isDialogShow by remember { mutableStateOf(false) }
+
+    val professionalsPaging = uiState.professionals.collectAsLazyPagingItems()
 
     Column(
         modifier = Modifier.padding(12.dp)
@@ -64,22 +68,24 @@ fun ProfessionalListContent(
                 CircularProgressIndicator()
             }
         } else {
-            uiState.professionals?.let { professionals ->
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(top = 18.dp)
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(professionals) {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(top = 18.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(professionalsPaging.itemCount) { index ->
+                    val professional = professionalsPaging[index]
+
+                    professional?.let {
                         ProfessionalListItem(
                             it,
                             onProfessionalClick = onProfessionalClick
                         )
                     }
+
                 }
             }
-
         }
     }
 
@@ -90,40 +96,44 @@ fun ProfessionalListContent(
 private fun ProfessionalListContentPreview() {
     ProfessionalListContent(
         uiState = ProfessionalListUiState(
-            professionals = listOf(
-                Professional(
-                    aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
-                    expertise = listOf(
-                        "Sports Nutrition",
-                        "Weight Gain"
-                    ),
-                    id = 1,
-                    languages = listOf(
-                        "German",
-                        "Portuguese",
-                        "English"
-                    ),
-                    name = "Emma Williams",
-                    profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
-                    rating = 3,
-                    ratingCount = 80
-                ),
-                Professional(
-                    aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
-                    expertise = listOf(
-                        "Sports Nutrition",
-                        "Weight Gain"
-                    ),
-                    id = 1,
-                    languages = listOf(
-                        "German",
-                        "Portuguese",
-                        "English"
-                    ),
-                    name = "Emma Williams",
-                    profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
-                    rating = 4,
-                    ratingCount = 80
+            professionals = flowOf(
+                PagingData.from(
+                    listOf(
+                        Professional(
+                            aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
+                            expertise = listOf(
+                                "Sports Nutrition",
+                                "Weight Gain"
+                            ),
+                            id = 1,
+                            languages = listOf(
+                                "German",
+                                "Portuguese",
+                                "English"
+                            ),
+                            name = "Emma Williams",
+                            profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
+                            rating = 3,
+                            ratingCount = 80
+                        ),
+                        Professional(
+                            aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
+                            expertise = listOf(
+                                "Sports Nutrition",
+                                "Weight Gain"
+                            ),
+                            id = 1,
+                            languages = listOf(
+                                "German",
+                                "Portuguese",
+                                "English"
+                            ),
+                            name = "Emma Williams",
+                            profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
+                            rating = 4,
+                            ratingCount = 80
+                        )
+                    )
                 )
             )
         ),

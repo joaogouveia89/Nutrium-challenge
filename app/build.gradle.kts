@@ -74,6 +74,10 @@ dependencies {
 
     implementation(libs.androidx.room.ktx)
 
+    // Paging3
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+
 
     testImplementation(libs.androidx.room.testing)
     testImplementation(libs.junit)
