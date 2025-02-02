@@ -21,8 +21,6 @@ class ProfessionalListViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ProfessionalListUiState())
 
-    private val cachedProfessionals = mutableMapOf<FilterType, List<Professional>>()
-
     val uiState: StateFlow<ProfessionalListUiState>
         get() = _uiState
 
@@ -56,10 +54,6 @@ class ProfessionalListViewModel @Inject constructor(
             )
             .map(::getProfessionalsToUiState)
             .collect { getProfessionalsState ->
-                getProfessionalsState.professionals?.let {
-                    //updating cache
-                    cachedProfessionals[_uiState.value.filterType] = getProfessionalsState.professionals
-                }
                 _uiState.update { getProfessionalsState }
             }
     }
@@ -71,18 +65,8 @@ class ProfessionalListViewModel @Inject constructor(
         filterType?.let { ft ->
             _uiState.update { it.copy(filterType = ft) }
 
-            val cacheData = cachedProfessionals[_uiState.value.filterType]
-
-            if(cacheData == null){
-                viewModelScope.launch {
-                    getProfessionals()
-                }
-            }else{
-                _uiState.update {
-                    it.copy(
-                        professionals = cacheData
-                    )
-                }
+            viewModelScope.launch {
+                getProfessionals()
             }
         }
     }
