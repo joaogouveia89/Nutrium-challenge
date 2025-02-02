@@ -16,7 +16,7 @@ class ProfessionalsRepositoryImpl @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) : ProfessionalsRepository {
 
-    private val cachedProfessionals = mutableMapOf<String, List<Professional>>()
+    private val cachedProfessionals = mutableMapOf<String, MutableMap<Int, List<Professional>>>()
 
     override fun getProfessionals(
         filterType: String,
@@ -24,14 +24,10 @@ class ProfessionalsRepositoryImpl @Inject constructor(
     ): Flow<PagingData<Professional>> = Pager(
         config = pagingConfig,
         pagingSourceFactory = {
-            professionalsRemoteSource.getProfessionalsPagingSource(filterType = filterType)
+            professionalsRemoteSource.getProfessionalsPagingSource(
+                filterType = filterType,
+                cache = cachedProfessionals
+            )
         }
     ).flow.flowOn(dispatcher)
-
-    private fun getFromCache(filterType: String): List<Professional>? =
-        cachedProfessionals[filterType]
-
-    private fun updateCache(filterType: String, professionals: List<Professional>) {
-        cachedProfessionals[filterType] = professionals
-    }
 }

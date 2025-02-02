@@ -10,9 +10,13 @@ interface ProfessionalsRemoteSource {
         offset: Int,
     ): List<Professional>
 
-    fun getProfessionalsPagingSource(filterType: String): ProfessionalsPagingSource =
+    fun getProfessionalsPagingSource(
+        filterType: String,
+        cache: MutableMap<String, MutableMap<Int, List<Professional>>>
+    ): ProfessionalsPagingSource =
         ProfessionalsPagingSource(
             remoteDataSource = this,
-            filterType = filterType
+            filterType = filterType,
+            cache = cache
         )
 }

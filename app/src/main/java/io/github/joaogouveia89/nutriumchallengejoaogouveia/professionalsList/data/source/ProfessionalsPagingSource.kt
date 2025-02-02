@@ -9,7 +9,8 @@ import retrofit2.HttpException
 
 class ProfessionalsPagingSource(
     private val remoteDataSource: ProfessionalsRemoteSource,
-    private val filterType: String
+    private val filterType: String,
+    private val cache: MutableMap<String, MutableMap<Int, List<Professional>>>
 ) : PagingSource<Int, Professional>() {
     override fun getRefreshKey(state: PagingState<Int, Professional>): Int? =
         state.anchorPosition?.let { anchorPosition ->
@@ -20,11 +21,16 @@ class ProfessionalsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Professional> {
         return try {
             val pageNumber = params.key ?: 1
-            val professionals = remoteDataSource.getProfessionals(
+
+            val cachedPages = cache.getOrPut(filterType) { mutableMapOf() }
+
+            val professionals = cachedPages[pageNumber] ?: remoteDataSource.getProfessionals(
                 filterType = filterType,
                 limit = LIMIT,
                 offset = pageNumber + LIMIT
-            )
+            ).also {
+                cachedPages[pageNumber] = it
+            }
 
             LoadResult.Page(
                 data = professionals,
