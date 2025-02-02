@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
@@ -39,6 +41,9 @@ fun ProfessionalListContent(
     var isDialogShow by remember { mutableStateOf(false) }
 
     val professionalsPaging = uiState.professionals.collectAsLazyPagingItems()
+
+    val isLoading = professionalsPaging.loadState.refresh is LoadState.Loading
+    val isAppending = professionalsPaging.loadState.append is LoadState.Loading
 
     Column(
         modifier = Modifier.padding(12.dp)
@@ -60,7 +65,7 @@ fun ProfessionalListContent(
             }
         )
 
-        if (uiState.isLoading) {
+        if (isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -83,7 +88,18 @@ fun ProfessionalListContent(
                             onProfessionalClick = onProfessionalClick
                         )
                     }
-
+                }
+                if (isAppending) {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .padding(top = 18.dp)
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
                 }
             }
         }

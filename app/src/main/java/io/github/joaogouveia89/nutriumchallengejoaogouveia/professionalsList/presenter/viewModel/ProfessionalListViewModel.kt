@@ -43,7 +43,6 @@ class ProfessionalListViewModel @Inject constructor(
     }
 
     private fun getProfessionals() {
-        _uiState.update { it.copy(isLoading = true) }
 
         val professionalsPagingFlow = professionalsRepository.getProfessionals(
             filterType = _uiState.value.filterType.apiIdentifier,
@@ -52,8 +51,7 @@ class ProfessionalListViewModel @Inject constructor(
 
         _uiState.update {
             it.copy(
-                professionals = professionalsPagingFlow,
-                isLoading = false
+                professionals = professionalsPagingFlow
             )
         }
 

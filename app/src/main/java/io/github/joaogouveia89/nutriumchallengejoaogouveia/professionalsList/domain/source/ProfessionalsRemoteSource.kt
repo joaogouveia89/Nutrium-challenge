@@ -9,6 +9,7 @@ interface ProfessionalsRemoteSource {
         limit: Int,
         offset: Int,
     ): List<Professional>
+
     fun getProfessionalsPagingSource(filterType: String): ProfessionalsPagingSource =
         ProfessionalsPagingSource(
             remoteDataSource = this,

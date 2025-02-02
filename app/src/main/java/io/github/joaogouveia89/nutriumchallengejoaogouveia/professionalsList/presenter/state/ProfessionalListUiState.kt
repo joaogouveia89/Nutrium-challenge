@@ -8,6 +8,5 @@ import kotlinx.coroutines.flow.emptyFlow
 
 data class ProfessionalListUiState(
     val professionals: Flow<PagingData<Professional>> = emptyFlow(),
-    val filterType: FilterType = FilterType.BEST_MATCH,
-    val isLoading: Boolean = false
+    val filterType: FilterType = FilterType.BEST_MATCH
 )

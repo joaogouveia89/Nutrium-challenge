@@ -13,7 +13,7 @@ class ProfessionalsRemoteSourceImpl @Inject constructor(
         filterType: String,
         limit: Int,
         offset: Int,
-        ): List<Professional> {
+    ): List<Professional> {
         return nutriumService
             .getProfessionals(
                 filterType = filterType,
