@@ -37,6 +37,7 @@ fun NavigationGraph(navController: NavHostController) {
 
             ProfessionalListScreen(
                 uiState = uiState,
+                filterTypesEntries = viewModel.filterTypesEntries,
                 onProfessionalClick = {
                     navController.navigate(ProfessionalDetailsNav.passProfessionalId(professionalId = it.id))
                 }

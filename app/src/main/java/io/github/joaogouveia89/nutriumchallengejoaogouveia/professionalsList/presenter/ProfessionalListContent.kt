@@ -35,10 +35,11 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.pre
 @Composable
 fun ProfessionalListContent(
     uiState: ProfessionalListUiState,
+    filterTypesEntries: List<String>,
     onProfessionalClick: (Professional) -> Unit
 ) {
     var isDialogShow by remember { mutableStateOf(false) }
-    var optionFilterSelected by remember { mutableIntStateOf(0) }
+    var optionFilterSelected by remember { mutableIntStateOf(uiState.filterType.ordinal) }
 
     Column(
         modifier = Modifier.padding(12.dp)
@@ -51,7 +52,7 @@ fun ProfessionalListContent(
                 .padding(vertical = 8.dp, horizontal = 8.dp)
                 .align(Alignment.CenterHorizontally)
                 .clickable { isDialogShow = true },
-            options = listOf("Best Match", "Most Popular", "Rating"),
+            options = filterTypesEntries,
             isDialogShow = isDialogShow,
             selectedIndex = optionFilterSelected,
             onChose = {
@@ -119,6 +120,7 @@ private fun ProfessionalListContentPreview() {
                 )
             )
         ),
-        onProfessionalClick = {}
+        onProfessionalClick = {},
+        filterTypesEntries = listOf("Best Match", "Most Popular", "Rating")
     )
 }

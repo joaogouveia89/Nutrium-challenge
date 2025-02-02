@@ -1,5 +1,6 @@
 package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.viewModel
 
+import androidx.compose.ui.text.capitalize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,16 @@ class ProfessionalListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfessionalListUiState())
+
+    val filterTypesEntries = FilterType
+        .getFilters()
+        .map { ft ->
+            ft.name
+                .lowercase()
+                .replace("_", " ")
+                .split(" ")
+                .joinToString(" ") { it.replaceFirstChar(Char::titlecase) }
+        }
 
     val uiState: StateFlow<ProfessionalListUiState>
         get() = _uiState

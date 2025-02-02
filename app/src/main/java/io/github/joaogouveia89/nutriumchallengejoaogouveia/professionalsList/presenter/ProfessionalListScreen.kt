@@ -12,6 +12,7 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.pre
 @Composable
 fun ProfessionalListScreen(
     uiState: ProfessionalListUiState,
+    filterTypesEntries: List<String>,
     onProfessionalClick: (Professional) -> Unit
 ) {
     if (uiState.isLoading) {
@@ -25,6 +26,7 @@ fun ProfessionalListScreen(
     } else {
         ProfessionalListContent(
             uiState = uiState,
+            filterTypesEntries = filterTypesEntries,
             onProfessionalClick = onProfessionalClick
         )
     }
