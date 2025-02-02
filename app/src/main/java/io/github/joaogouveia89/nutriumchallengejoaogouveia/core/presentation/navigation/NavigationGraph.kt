@@ -43,6 +43,9 @@ fun NavigationGraph(navController: NavHostController) {
                 },
                 onFilterTypeSelected = {
                     viewModel.execute(ProfessionalListCommand.ChangeFilterType(it))
+                },
+                onErrorRetryClick = {
+                    viewModel.execute(ProfessionalListCommand.OnErrorRetry)
                 }
             )
         }

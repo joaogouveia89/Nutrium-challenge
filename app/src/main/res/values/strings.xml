@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Nutrium Challenge Joao Gouveia</string>
+    <string name="professional_list_error_loading">Error occurred while loading the list.</string>
+    <string name="professional_list_error_button_retry">Retry</string>
 </resources>

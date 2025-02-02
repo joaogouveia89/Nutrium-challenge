@@ -9,12 +9,14 @@ fun ProfessionalListScreen(
     uiState: ProfessionalListUiState,
     filterTypesEntries: List<String>,
     onProfessionalClick: (Professional) -> Unit,
-    onFilterTypeSelected: (Int) -> Unit
+    onFilterTypeSelected: (Int) -> Unit,
+    onErrorRetryClick: () -> Unit,
 ) {
     ProfessionalListContent(
         uiState = uiState,
         filterTypesEntries = filterTypesEntries,
         onProfessionalClick = onProfessionalClick,
-        onFilterTypeSelected = onFilterTypeSelected
+        onFilterTypeSelected = onFilterTypeSelected,
+        onErrorRetryClick = onErrorRetryClick
     )
 }

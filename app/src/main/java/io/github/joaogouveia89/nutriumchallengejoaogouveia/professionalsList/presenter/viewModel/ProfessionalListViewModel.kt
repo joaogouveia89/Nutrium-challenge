@@ -39,6 +39,7 @@ class ProfessionalListViewModel @Inject constructor(
             is ProfessionalListCommand.GetProfessionals -> getProfessionals()
             is ProfessionalListCommand.ChangeFilterType -> changeFilterType(command.filterTypeId)
             is ProfessionalListCommand.DismissError -> {}
+            is ProfessionalListCommand.OnErrorRetry -> getProfessionals()
         }
     }
 

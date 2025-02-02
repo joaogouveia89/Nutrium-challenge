@@ -27,6 +27,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.MultipleChoiceSelect
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.InitialLoadingErrorScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
 import kotlinx.coroutines.flow.flowOf
@@ -36,75 +37,83 @@ fun ProfessionalListContent(
     uiState: ProfessionalListUiState,
     filterTypesEntries: List<String>,
     onProfessionalClick: (Professional) -> Unit,
+    onErrorRetryClick: () -> Unit,
     onFilterTypeSelected: (Int) -> Unit
 ) {
     var isDialogShow by remember { mutableStateOf(false) }
 
     val professionalsPaging = uiState.professionals.collectAsLazyPagingItems()
 
-    val isLoading = professionalsPaging.loadState.refresh is LoadState.Loading
+    val isLoadingRefresh = professionalsPaging.loadState.refresh is LoadState.Loading
     val isAppending = professionalsPaging.loadState.append is LoadState.Loading
 
-    Column(
-        modifier = Modifier.padding(12.dp)
-    ) {
-        MultipleChoiceSelect(
-            modifier = Modifier
-                .padding(top = 18.dp)
-                .fillMaxWidth(0.9f)
-                .border(width = 1.dp, color = Black, shape = RectangleShape)
-                .padding(vertical = 8.dp, horizontal = 8.dp)
-                .align(Alignment.CenterHorizontally)
-                .clickable { isDialogShow = true },
-            options = filterTypesEntries,
-            isDialogShow = isDialogShow,
-            selectedIndex = uiState.filterType.ordinal,
-            onChose = {
-                onFilterTypeSelected(it)
-                isDialogShow = false
-            }
-        )
+    val isErrorRefresh = professionalsPaging.loadState.refresh is LoadState.Error
 
-        if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            LazyColumn(
+    if (isErrorRefresh) {
+        InitialLoadingErrorScreen(
+            onRetryClick = onErrorRetryClick
+        )
+    } else {
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            MultipleChoiceSelect(
                 modifier = Modifier
                     .padding(top = 18.dp)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(professionalsPaging.itemCount) { index ->
-                    val professional = professionalsPaging[index]
-
-                    professional?.let {
-                        ProfessionalListItem(
-                            it,
-                            onProfessionalClick = onProfessionalClick
-                        )
-                    }
+                    .fillMaxWidth(0.9f)
+                    .border(width = 1.dp, color = Black, shape = RectangleShape)
+                    .padding(vertical = 8.dp, horizontal = 8.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .clickable { isDialogShow = true },
+                options = filterTypesEntries,
+                isDialogShow = isDialogShow,
+                selectedIndex = uiState.filterType.ordinal,
+                onChose = {
+                    onFilterTypeSelected(it)
+                    isDialogShow = false
                 }
-                if (isAppending) {
-                    item {
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 18.dp)
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            CircularProgressIndicator()
+            )
+
+            if (isLoadingRefresh) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(top = 18.dp)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(professionalsPaging.itemCount) { index ->
+                        val professional = professionalsPaging[index]
+
+                        professional?.let {
+                            ProfessionalListItem(
+                                it,
+                                onProfessionalClick = onProfessionalClick
+                            )
+                        }
+                    }
+                    if (isAppending) {
+                        item {
+                            Row(
+                                modifier = Modifier
+                                    .padding(top = 18.dp)
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
@@ -155,6 +164,7 @@ private fun ProfessionalListContentPreview() {
         ),
         onProfessionalClick = {},
         filterTypesEntries = listOf("Best Match", "Most Popular", "Rating"),
-        onFilterTypeSelected = {}
+        onFilterTypeSelected = {},
+        onErrorRetryClick = {}
     )
 }
