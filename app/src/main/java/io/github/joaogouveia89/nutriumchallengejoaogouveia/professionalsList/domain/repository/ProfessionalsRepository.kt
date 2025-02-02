@@ -3,5 +3,5 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.do
 import kotlinx.coroutines.flow.Flow
 
 interface ProfessionalsRepository {
-    suspend fun getProfessionals(): Flow<GetProfessionalsState>
+    fun getProfessionals(filterType: String): Flow<GetProfessionalsState>
 }

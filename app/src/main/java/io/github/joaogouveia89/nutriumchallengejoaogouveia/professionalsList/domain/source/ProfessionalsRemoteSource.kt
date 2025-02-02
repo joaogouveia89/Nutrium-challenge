@@ -3,5 +3,5 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.do
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 
 interface ProfessionalsRemoteSource {
-    suspend fun getProfessionals(): List<Professional>
+    suspend fun getProfessionals(filterType: String): List<Professional>
 }

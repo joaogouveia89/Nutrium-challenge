@@ -8,7 +8,7 @@ enum class FilterType {
     val apiIdentifier: String
         get() = name.lowercase()
 
-    companion object{
+    companion object {
         fun getFilters() = entries.toList()
     }
 }

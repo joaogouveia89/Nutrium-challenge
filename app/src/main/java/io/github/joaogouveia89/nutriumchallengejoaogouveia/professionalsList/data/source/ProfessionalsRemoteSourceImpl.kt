@@ -9,9 +9,9 @@ import javax.inject.Inject
 class ProfessionalsRemoteSourceImpl @Inject constructor(
     private val nutriumService: NutriumService
 ) : ProfessionalsRemoteSource {
-    override suspend fun getProfessionals(): List<Professional> {
+    override suspend fun getProfessionals(filterType: String): List<Professional> {
         return nutriumService
-            .getProfessionals()
+            .getProfessionals(filterType = filterType)
             .responseAsProfessionals()
     }
 }

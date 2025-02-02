@@ -1,0 +1,3 @@
+package io.github.joaogouveia89.nutriumchallengejoaogouveia.core.service.remote
+
+class HttpLoggingInterceptor

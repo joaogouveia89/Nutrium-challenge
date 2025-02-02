@@ -1,6 +1,5 @@
 package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.viewModel
 
-import androidx.compose.ui.text.capitalize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,6 +8,7 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.dom
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,8 +20,10 @@ class ProfessionalListViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ProfessionalListUiState())
 
-    val filterTypesEntries = FilterType
+    private val filterTypes = FilterType
         .getFilters()
+
+    val filterTypesHumanized = filterTypes
         .map { ft ->
             ft.name
                 .lowercase()
@@ -35,29 +37,47 @@ class ProfessionalListViewModel @Inject constructor(
 
     fun execute(command: ProfessionalListCommand) {
         when (command) {
-            is ProfessionalListCommand.GetProfessionals -> getProfessionals()
+            is ProfessionalListCommand.GetProfessionals -> viewModelScope.launch {
+                getProfessionals()
+            }
+
+            is ProfessionalListCommand.ChangeFilterType -> changeFilterType(command.filterTypeId)
             is ProfessionalListCommand.DismissError -> {}
         }
     }
 
-    private fun getProfessionals() {
-        viewModelScope.launch {
-            professionalsRepository.getProfessionals().collect { getProfessionalsState ->
-
-                when (getProfessionalsState) {
-                    is GetProfessionalsState.Loading -> _uiState.update {
-                        ProfessionalListUiState(isLoading = true)
-                    }
-
-                    is GetProfessionalsState.Success -> _uiState.update {
-                        ProfessionalListUiState(
-                            professionals = getProfessionalsState.professionals
-                        )
-                    }
-
-                    GetProfessionalsState.Error -> ProfessionalListUiState()
-                }
+    private suspend fun getProfessionals() {
+        professionalsRepository
+            .getProfessionals(
+                filterType = _uiState.value.filterType.apiIdentifier
+            )
+            .map(::getProfessionalsToUiState)
+            .collect { getProfessionalsState ->
+                _uiState.update { getProfessionalsState }
             }
+    }
+
+    private fun changeFilterType(filterTypeId: Int) {
+        val filterType = filterTypes.firstOrNull {
+            it.ordinal == filterTypeId
+        }
+        filterType?.let { ft ->
+            _uiState.update { it.copy(filterType = ft) }
+            viewModelScope.launch {
+                getProfessionals()
+            }
+        }
+    }
+
+    private fun getProfessionalsToUiState(getProfessionalsState: GetProfessionalsState): ProfessionalListUiState {
+        return when (getProfessionalsState) {
+            is GetProfessionalsState.Loading -> _uiState.value.copy(isLoading = true)
+            is GetProfessionalsState.Success -> _uiState.value.copy(
+                professionals = getProfessionalsState.professionals,
+                isLoading = false
+            )
+
+            is GetProfessionalsState.Error -> ProfessionalListUiState()
         }
     }
 }

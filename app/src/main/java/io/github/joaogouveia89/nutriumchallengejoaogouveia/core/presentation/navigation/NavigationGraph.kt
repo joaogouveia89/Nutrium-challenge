@@ -37,9 +37,12 @@ fun NavigationGraph(navController: NavHostController) {
 
             ProfessionalListScreen(
                 uiState = uiState,
-                filterTypesEntries = viewModel.filterTypesEntries,
+                filterTypesEntries = viewModel.filterTypesHumanized,
                 onProfessionalClick = {
                     navController.navigate(ProfessionalDetailsNav.passProfessionalId(professionalId = it.id))
+                },
+                onFilterTypeSelected = {
+                    viewModel.execute(ProfessionalListCommand.ChangeFilterType(it))
                 }
             )
         }

@@ -13,8 +13,8 @@ class ProfessionalsRepositoryImpl @Inject constructor(
     private val professionalsRemoteSource: ProfessionalsRemoteSource,
     private val dispatcher: CoroutineDispatcher
 ) : ProfessionalsRepository {
-    override suspend fun getProfessionals(): Flow<GetProfessionalsState> = flow {
+    override fun getProfessionals(filterType: String): Flow<GetProfessionalsState> = flow {
         emit(GetProfessionalsState.Loading)
-        emit(GetProfessionalsState.Success(professionalsRemoteSource.getProfessionals()))
+        emit(GetProfessionalsState.Success(professionalsRemoteSource.getProfessionals(filterType = filterType)))
     }.flowOn(dispatcher)
 }

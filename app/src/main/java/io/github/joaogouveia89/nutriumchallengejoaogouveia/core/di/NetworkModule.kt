@@ -28,7 +28,7 @@ object NetworkModule {
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
+                HttpLoggingInterceptor.Level.BASIC
             } else {
                 HttpLoggingInterceptor.Level.NONE
             }
@@ -47,6 +47,7 @@ object NetworkModule {
                     .create()
             )
 
+
     @Provides
     fun provideOkHttpClient(
         paramsInterceptor: ParamsInterceptor,
@@ -55,8 +56,8 @@ object NetworkModule {
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(paramsInterceptor)
-            .addInterceptor(loggingInterceptor)
             .addInterceptor(logJsonInterceptor)
+            .addInterceptor(loggingInterceptor)
             .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()

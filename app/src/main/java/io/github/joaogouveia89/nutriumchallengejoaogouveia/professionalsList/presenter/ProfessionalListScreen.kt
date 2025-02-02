@@ -13,9 +13,10 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.pre
 fun ProfessionalListScreen(
     uiState: ProfessionalListUiState,
     filterTypesEntries: List<String>,
-    onProfessionalClick: (Professional) -> Unit
+    onProfessionalClick: (Professional) -> Unit,
+    onFilterTypeSelected: (Int) -> Unit
 ) {
-    if (uiState.isLoading) {
+    if (uiState.professionals == null && uiState.isLoading) {
         Box(
             modifier = Modifier
                 .fillMaxSize(),
@@ -27,7 +28,8 @@ fun ProfessionalListScreen(
         ProfessionalListContent(
             uiState = uiState,
             filterTypesEntries = filterTypesEntries,
-            onProfessionalClick = onProfessionalClick
+            onProfessionalClick = onProfessionalClick,
+            onFilterTypeSelected = onFilterTypeSelected
         )
     }
 }

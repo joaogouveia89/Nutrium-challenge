@@ -4,7 +4,7 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Profession
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.viewModel.FilterType
 
 data class ProfessionalListUiState(
-    val professionals: List<Professional> = listOf(),
+    val professionals: List<Professional>? = null,
     val filterType: FilterType = FilterType.BEST_MATCH,
     val isLoading: Boolean = false
 )

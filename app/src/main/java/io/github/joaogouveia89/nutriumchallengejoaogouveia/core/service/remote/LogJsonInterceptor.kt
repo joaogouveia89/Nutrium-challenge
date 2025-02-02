@@ -16,6 +16,7 @@ class LogJsonInterceptor : Interceptor {
         val response: Response = chain.proceed(request)
         val rawJson: String = response.body?.string() ?: ""
 
+        Log.d(BuildConfig.APPLICATION_ID, String.format("URL is %s", request.url))
         Log.d(BuildConfig.APPLICATION_ID, String.format("raw JSON response is: %s", rawJson))
 
         // Re-create the response before returning it because body can be read only once
