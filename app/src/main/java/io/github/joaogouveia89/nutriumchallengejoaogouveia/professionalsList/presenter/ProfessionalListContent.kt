@@ -20,12 +20,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.R
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ErrorSnackBar
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.MultipleChoiceSelect
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.InitialLoadingErrorScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
@@ -48,69 +51,84 @@ fun ProfessionalListContent(
     val isAppending = professionalsPaging.loadState.append is LoadState.Loading
 
     val isErrorRefresh = professionalsPaging.loadState.refresh is LoadState.Error
+    val isErrorAppending = professionalsPaging.loadState.append is LoadState.Error
 
     if (isErrorRefresh) {
         InitialLoadingErrorScreen(
             onRetryClick = onErrorRetryClick
         )
     } else {
-        Column(
-            modifier = Modifier.padding(12.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            MultipleChoiceSelect(
+            Column(
                 modifier = Modifier
-                    .padding(top = 18.dp)
-                    .fillMaxWidth(0.9f)
-                    .border(width = 1.dp, color = Black, shape = RectangleShape)
-                    .padding(vertical = 8.dp, horizontal = 8.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .clickable { isDialogShow = true },
-                options = filterTypesEntries,
-                isDialogShow = isDialogShow,
-                selectedIndex = uiState.filterType.ordinal,
-                onChose = {
-                    onFilterTypeSelected(it)
-                    isDialogShow = false
-                }
-            )
-
-            if (isLoadingRefresh) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                LazyColumn(
+                    .padding(12.dp)
+                    .fillMaxSize()
+            ) {
+                MultipleChoiceSelect(
                     modifier = Modifier
                         .padding(top = 18.dp)
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(professionalsPaging.itemCount) { index ->
-                        val professional = professionalsPaging[index]
-
-                        professional?.let {
-                            ProfessionalListItem(
-                                it,
-                                onProfessionalClick = onProfessionalClick
-                            )
-                        }
+                        .fillMaxWidth(0.9f)
+                        .border(width = 1.dp, color = Black, shape = RectangleShape)
+                        .padding(vertical = 8.dp, horizontal = 8.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .clickable { isDialogShow = true },
+                    options = filterTypesEntries,
+                    isDialogShow = isDialogShow,
+                    selectedIndex = uiState.filterType.ordinal,
+                    onChose = {
+                        onFilterTypeSelected(it)
+                        isDialogShow = false
                     }
-                    if (isAppending) {
-                        item {
-                            Row(
-                                modifier = Modifier
-                                    .padding(top = 18.dp)
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                CircularProgressIndicator()
+                )
+
+                if (isLoadingRefresh) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(top = 18.dp)
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(professionalsPaging.itemCount) { index ->
+                            val professional = professionalsPaging[index]
+
+                            professional?.let {
+                                ProfessionalListItem(
+                                    it,
+                                    onProfessionalClick = onProfessionalClick
+                                )
+                            }
+                        }
+                        if (isAppending) {
+                            item {
+                                Row(
+                                    modifier = Modifier
+                                        .padding(top = 18.dp)
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    CircularProgressIndicator()
+                                }
                             }
                         }
                     }
                 }
+            }
+            if (isErrorAppending) {
+                ErrorSnackBar(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter),
+                    text = stringResource(R.string.professional_list_error_appending),
+                )
             }
         }
     }
