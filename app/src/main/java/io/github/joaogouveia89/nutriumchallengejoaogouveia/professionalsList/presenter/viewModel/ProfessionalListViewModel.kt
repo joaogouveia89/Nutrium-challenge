@@ -20,6 +20,9 @@ class ProfessionalListViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ProfessionalListUiState())
 
+    val uiState: StateFlow<ProfessionalListUiState>
+        get() = _uiState
+
     private val filterTypes = FilterType
         .getFilters()
 
@@ -31,9 +34,6 @@ class ProfessionalListViewModel @Inject constructor(
                 .split(" ")
                 .joinToString(" ") { it.replaceFirstChar(Char::titlecase) }
         }
-
-    val uiState: StateFlow<ProfessionalListUiState>
-        get() = _uiState
 
     fun execute(command: ProfessionalListCommand) {
         when (command) {
