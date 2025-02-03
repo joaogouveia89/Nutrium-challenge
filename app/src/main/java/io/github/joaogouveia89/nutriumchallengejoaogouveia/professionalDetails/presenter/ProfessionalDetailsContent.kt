@@ -27,6 +27,7 @@ import coil3.compose.AsyncImage
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ProfessionalRatingBar
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.ktx.bottomBorder
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.singleProfessional
 
 @Composable
 fun ProfessionalDetailsContent(
@@ -116,16 +117,7 @@ fun ExpandCollapseButton(
 @Composable
 private fun ProfessionalDetailsContentPreview() {
     ProfessionalDetailsContent(
-        Professional(
-            id = 1,
-            name = "John",
-            profilePictureUrl = "",
-            rating = 3,
-            ratingCount = 21,
-            aboutMe = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate vestibulum velit, ultricies ultrices urna varius ut. Quisque imperdiet consequat dui, ut sodales enim sodales ornare. Aliquam leo magna, sagittis ac enim a, luctus scelerisque orci. Duis ligula neque, vehicula.",
-            expertise = listOf("exp1", "exp2", "exp3"),
-            languages = listOf("lan1", "lan2", "lan3")
-        ),
+        professional = singleProfessional,
         isAboutMeExpanded = false,
         onAboutMeExpandCollapseClick = {},
         onBackClick = {}

@@ -24,16 +24,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.R
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ErrorSnackBar
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.MultipleChoiceSelect
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.filterTypeEntries
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.professionalsPageFlow
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.InitialLoadingErrorScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ProfessionalListContent(
@@ -85,42 +86,13 @@ fun ProfessionalListContent(
                 )
 
                 if (isLoadingRefresh) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    LoadingContent()
                 } else {
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(top = 18.dp)
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(professionalsPaging.itemCount) { index ->
-                            val professional = professionalsPaging[index]
-
-                            professional?.let {
-                                ProfessionalListItem(
-                                    it,
-                                    onProfessionalClick = onProfessionalClick
-                                )
-                            }
-                        }
-                        if (isAppending) {
-                            item {
-                                Row(
-                                    modifier = Modifier
-                                        .padding(top = 18.dp)
-                                        .fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    CircularProgressIndicator()
-                                }
-                            }
-                        }
-                    }
+                    ListContent(
+                        professionalsPaging = professionalsPaging,
+                        onProfessionalClick = onProfessionalClick,
+                        isAppending = isAppending
+                    )
                 }
             }
             if (isErrorAppending) {
@@ -134,54 +106,62 @@ fun ProfessionalListContent(
     }
 }
 
+@Composable
+private fun ListContent(
+    professionalsPaging: LazyPagingItems<Professional>,
+    onProfessionalClick: (Professional) -> Unit,
+    isAppending: Boolean
+) {
+    LazyColumn(
+        modifier = Modifier
+            .padding(top = 18.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(professionalsPaging.itemCount) { index ->
+            val professional = professionalsPaging[index]
+
+            professional?.let {
+                ProfessionalListItem(
+                    it,
+                    onProfessionalClick = onProfessionalClick
+                )
+            }
+        }
+        if (isAppending) {
+            item {
+                Row(
+                    modifier = Modifier
+                        .padding(top = 18.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LoadingContent() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun ProfessionalListContentPreview() {
     ProfessionalListContent(
         uiState = ProfessionalListUiState(
-            professionals = flowOf(
-                PagingData.from(
-                    listOf(
-                        Professional(
-                            aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
-                            expertise = listOf(
-                                "Sports Nutrition",
-                                "Weight Gain"
-                            ),
-                            id = 1,
-                            languages = listOf(
-                                "German",
-                                "Portuguese",
-                                "English"
-                            ),
-                            name = "Emma Williams",
-                            profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
-                            rating = 3,
-                            ratingCount = 80
-                        ),
-                        Professional(
-                            aboutMe = "Emma Williams specializes in Sports Nutrition and Weight Gain, with a passion for promoting health and well-being.",
-                            expertise = listOf(
-                                "Sports Nutrition",
-                                "Weight Gain"
-                            ),
-                            id = 1,
-                            languages = listOf(
-                                "German",
-                                "Portuguese",
-                                "English"
-                            ),
-                            name = "Emma Williams",
-                            profilePictureUrl = "https://thispersondoesnotexist.com/image-1.jpg",
-                            rating = 4,
-                            ratingCount = 80
-                        )
-                    )
-                )
-            )
+            professionals = professionalsPageFlow
         ),
         onProfessionalClick = {},
-        filterTypesEntries = listOf("Best Match", "Most Popular", "Rating"),
+        filterTypesEntries = filterTypeEntries,
         onFilterTypeSelected = {},
         onErrorRetryClick = {}
     )
