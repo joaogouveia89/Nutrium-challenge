@@ -2,6 +2,7 @@ package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalDetails.
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -130,8 +131,11 @@ fun ProfessionalDetailsContent(
 
                 isExpandable = fullTextLayoutResult.lineCount > truncatedTextLayoutResult.lineCount
 
+
                 Text(
-                    modifier = Modifier.padding(vertical = 4.dp),
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .animateContentSize(),
                     text = professional.aboutMe,
                     style = MaterialTheme.typography.bodySmall,
                     overflow = TextOverflow.Ellipsis,
@@ -139,12 +143,12 @@ fun ProfessionalDetailsContent(
                 )
             }
 
-            val expandCollapseButtonParams = if(isAboutMeExpanded){
+            val expandCollapseButtonParams = if (isAboutMeExpanded) {
                 Pair(
                     R.string.professional_details_collapse,
                     Icons.Default.KeyboardArrowUp
                 )
-            }else{
+            } else {
                 Pair(
                     R.string.professional_details_show_more,
                     Icons.Default.KeyboardArrowDown
