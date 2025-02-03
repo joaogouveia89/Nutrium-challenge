@@ -104,8 +104,7 @@ fun ProfessionalDetailsContent(
                 style = MaterialTheme.typography.titleMedium
             )
 
-            var originalTextLayoutNumberOfLines = 0
-            var truncatedTextLayoutNumberOfLines = 0
+            var isExpandable = false
 
             BoxWithConstraints {
                 val textMeasurer = rememberTextMeasurer()
@@ -129,8 +128,7 @@ fun ProfessionalDetailsContent(
                     )
                 }
 
-                originalTextLayoutNumberOfLines = fullTextLayoutResult.lineCount
-                truncatedTextLayoutNumberOfLines = truncatedTextLayoutResult.lineCount
+                isExpandable = fullTextLayoutResult.lineCount > truncatedTextLayoutResult.lineCount
 
                 Text(
                     modifier = Modifier.padding(vertical = 4.dp),
@@ -141,20 +139,24 @@ fun ProfessionalDetailsContent(
                 )
             }
 
+            val expandCollapseButtonParams = if(isAboutMeExpanded){
+                Pair(
+                    R.string.professional_details_collapse,
+                    Icons.Default.KeyboardArrowUp
+                )
+            }else{
+                Pair(
+                    R.string.professional_details_show_more,
+                    Icons.Default.KeyboardArrowDown
+                )
+            }
+
             ExpandCollapseButton(
                 modifier = Modifier,
-                text = stringResource(
-                    if (isAboutMeExpanded)
-                        R.string.professional_details_collapse
-                    else
-                        R.string.professional_details_show_more
-                ),
-                icon = if (isAboutMeExpanded)
-                    Icons.Default.KeyboardArrowUp
-                else
-                    Icons.Default.KeyboardArrowDown,
+                text = stringResource(expandCollapseButtonParams.first),
+                icon = expandCollapseButtonParams.second,
                 onClick = {
-                    if (originalTextLayoutNumberOfLines > truncatedTextLayoutNumberOfLines) {
+                    if (isExpandable) {
                         onAboutMeExpandCollapseClick()
                     } else {
                         Toast.makeText(
