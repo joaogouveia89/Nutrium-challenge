@@ -9,4 +9,12 @@ data class Professional(
     val aboutMe: String = "",
     val expertise: List<String> = listOf(),
     val languages: List<String> = listOf(),
-)
+) {
+    val nameInitials: String
+        get() = if (name.isNotEmpty())
+            name
+                .split(" ")
+                .map { it.first() }
+                .joinToString("")
+        else ""
+}

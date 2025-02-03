@@ -1,11 +1,11 @@
 package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -15,10 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ProfessionalImage
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ProfessionalRatingBar
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ProfessionalListItem(
     professional: Professional,
@@ -40,11 +41,9 @@ fun ProfessionalListItem(
         Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)) {
             Row {
                 Column(Modifier.padding(bottom = 12.dp)) {
-                    AsyncImage(
-                        modifier = Modifier
-                            .size(80.dp),
-                        model = professional.profilePictureUrl,
-                        contentDescription = null
+                    ProfessionalImage(
+                        url = professional.profilePictureUrl,
+                        fallback = professional.nameInitials
                     )
                 }
                 Column(

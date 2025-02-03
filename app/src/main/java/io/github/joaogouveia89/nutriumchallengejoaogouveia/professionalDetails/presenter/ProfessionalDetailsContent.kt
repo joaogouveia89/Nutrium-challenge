@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -35,9 +34,9 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.R
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ProfessionalImage
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ProfessionalRatingBar
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.ktx.bottomBorder
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.singleProfessional
@@ -76,12 +75,14 @@ fun ProfessionalDetailsContent(
                         .padding(bottom = 24.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AsyncImage(
-                        modifier = Modifier.size(80.dp),
-                        model = professional.profilePictureUrl,
-                        contentDescription = null
+                    ProfessionalImage(
+                        url = professional.profilePictureUrl,
+                        fallback = professional.nameInitials
                     )
-                    Column {
+                    Column(
+                        modifier = Modifier
+                            .padding(8.dp)
+                    ) {
                         Text(
                             text = professional.name,
                             style = MaterialTheme.typography.titleLarge
