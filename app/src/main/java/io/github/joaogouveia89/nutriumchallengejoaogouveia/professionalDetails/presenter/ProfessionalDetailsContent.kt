@@ -16,6 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -80,7 +84,9 @@ fun ProfessionalDetailsContent(
                 }
             }
         }
-        Text("About me", style = MaterialTheme.typography.titleSmall)
+        Text(
+            text = stringResource(R.string.professional_details_label_about_me),
+            style = MaterialTheme.typography.titleSmall)
         Text(
             text = professional.aboutMe,
             style = MaterialTheme.typography.bodySmall,
@@ -123,10 +129,12 @@ fun ExpandCollapseButton(
 @Preview(showBackground = true)
 @Composable
 private fun ProfessionalDetailsContentPreview() {
+    var isAboutMeExpanded by rememberSaveable { mutableStateOf(false) }
+
     ProfessionalDetailsContent(
         professional = singleProfessional,
-        isAboutMeExpanded = false,
-        onAboutMeExpandCollapseClick = {},
+        isAboutMeExpanded = isAboutMeExpanded,
+        onAboutMeExpandCollapseClick = {isAboutMeExpanded = !isAboutMeExpanded},
         onBackClick = {}
     )
 }
