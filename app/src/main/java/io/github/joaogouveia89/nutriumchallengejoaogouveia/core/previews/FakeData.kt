@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flowOf
 
 val filterTypeEntries = listOf("Best Match", "Most Popular", "Rating")
 
-val singleProfessional =  Professional(
+val singleProfessional = Professional(
     id = 1,
     name = "John",
     profilePictureUrl = "",

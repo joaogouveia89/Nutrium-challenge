@@ -113,11 +113,20 @@ fun ProfessionalDetailsContent(
                 val style = MaterialTheme.typography.bodySmall
 
                 val fullTextLayoutResult = remember(professional.aboutMe, style, constraints) {
-                    textMeasurer.measure(text = professional.aboutMe, style = style, constraints = constraints)
+                    textMeasurer.measure(
+                        text = professional.aboutMe,
+                        style = style,
+                        constraints = constraints
+                    )
                 }
 
                 val truncatedTextLayoutResult = remember(professional.aboutMe, style, constraints) {
-                    textMeasurer.measure(text = professional.aboutMe, style = style, maxLines = 3, constraints = constraints)
+                    textMeasurer.measure(
+                        text = professional.aboutMe,
+                        style = style,
+                        maxLines = 3,
+                        constraints = constraints
+                    )
                 }
 
                 originalTextLayoutNumberOfLines = fullTextLayoutResult.lineCount
@@ -145,9 +154,9 @@ fun ProfessionalDetailsContent(
                 else
                     Icons.Default.KeyboardArrowDown,
                 onClick = {
-                    if(originalTextLayoutNumberOfLines > truncatedTextLayoutNumberOfLines){
+                    if (originalTextLayoutNumberOfLines > truncatedTextLayoutNumberOfLines) {
                         onAboutMeExpandCollapseClick()
-                    }else{
+                    } else {
                         Toast.makeText(
                             context,
                             context.getString(R.string.professional_details_nothing_to_expand_message),
