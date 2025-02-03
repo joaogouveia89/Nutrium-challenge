@@ -32,7 +32,7 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.com
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.MultipleChoiceSelect
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.filterTypeEntries
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.professionalsPageFlow
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.InitialLoadingErrorScreen
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.GenericErrorScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
 
@@ -55,7 +55,8 @@ fun ProfessionalListContent(
     val isErrorAppending = professionalsPaging.loadState.append is LoadState.Error
 
     if (isErrorRefresh) {
-        InitialLoadingErrorScreen(
+        GenericErrorScreen(
+            errorMessage = stringResource(R.string.professional_list_error_loading),
             onRetryClick = onErrorRetryClick
         )
     } else {

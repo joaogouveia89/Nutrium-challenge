@@ -4,5 +4,6 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Profession
 
 data class ProfessionalDetailsUiState(
     val professional: Professional = Professional(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isError: Boolean = false
 )

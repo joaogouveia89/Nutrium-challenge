@@ -4,5 +4,6 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Profession
 
 sealed class GetDetailsState {
     data object Loading : GetDetailsState()
+    data object SourceError : GetDetailsState()
     data class Success(val professional: Professional) : GetDetailsState()
 }

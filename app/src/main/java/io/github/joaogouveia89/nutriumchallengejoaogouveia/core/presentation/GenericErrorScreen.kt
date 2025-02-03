@@ -1,4 +1,4 @@
-package io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components
+package io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,7 +26,11 @@ import androidx.compose.ui.unit.dp
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.R
 
 @Composable
-fun InitialLoadingErrorScreen(modifier: Modifier = Modifier, onRetryClick: () -> Unit) {
+fun GenericErrorScreen(
+    modifier: Modifier = Modifier,
+    errorMessage: String,
+    onRetryClick: () -> Unit
+) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -44,7 +48,7 @@ fun InitialLoadingErrorScreen(modifier: Modifier = Modifier, onRetryClick: () ->
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = stringResource(R.string.professional_list_error_loading),
+                text = errorMessage,
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 32.dp)
@@ -68,8 +72,9 @@ fun InitialLoadingErrorScreen(modifier: Modifier = Modifier, onRetryClick: () ->
 
 @Preview(showBackground = true)
 @Composable
-private fun InitialLoadingErrorScreenPreview() {
-    InitialLoadingErrorScreen(
+private fun ErrorScreenPreview() {
+    GenericErrorScreen(
+        errorMessage = "An error happened",
         onRetryClick = {}
     )
 }

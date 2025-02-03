@@ -49,6 +49,12 @@ class ProfessionalDetailsViewModel @Inject constructor(
                                 professional = it.professional
                             )
                         }
+
+                        GetDetailsState.SourceError -> _uiState.update { _ ->
+                            ProfessionalDetailsUiState(
+                                isError = true
+                            )
+                        }
                     }
                 }
             }

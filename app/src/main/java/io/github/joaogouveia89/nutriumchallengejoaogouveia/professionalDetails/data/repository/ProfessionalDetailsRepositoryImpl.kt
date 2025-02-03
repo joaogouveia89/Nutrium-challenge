@@ -11,6 +11,11 @@ class ProfessionalDetailsRepositoryImpl @Inject constructor(
 ) : ProfessionalDetailsRepository {
     override suspend fun getDetails(id: Long) = flow {
         emit(GetDetailsState.Loading)
-        emit(GetDetailsState.Success(remoteSource.getProfessionalDetails(id)))
+        val professional = remoteSource.getProfessionalDetails(id)
+        if (professional == null) {
+            emit(GetDetailsState.SourceError)
+        }else{
+            emit(GetDetailsState.Success(professional))
+        }
     }
 }
