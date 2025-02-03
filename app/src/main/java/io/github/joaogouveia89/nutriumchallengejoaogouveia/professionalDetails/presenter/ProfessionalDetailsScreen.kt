@@ -16,6 +16,7 @@ fun ProfessionalDetailsScreen(
     uiState: ProfessionalDetailsUiState,
     isAboutMeExpanded: Boolean,
     onAboutMeExpandCollapseClick: () -> Unit,
+    onErrorRetryClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
     if (uiState.isLoading) {
@@ -29,7 +30,7 @@ fun ProfessionalDetailsScreen(
     } else if (uiState.isError) {
         GenericErrorScreen(
             errorMessage = stringResource(R.string.professional_details_loading_error),
-            onRetryClick = {}
+            onRetryClick = onErrorRetryClick
         )
     } else {
         ProfessionalDetailsContent(

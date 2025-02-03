@@ -30,6 +30,7 @@ class ProfessionalDetailsViewModel @Inject constructor(
     fun execute(command: ProfessionalDetailsCommand) {
         when (command) {
             ProfessionalDetailsCommand.GetProfessionalDetails -> getProfessionalDetails()
+            ProfessionalDetailsCommand.OnErrorRetry -> getProfessionalDetails()
         }
     }
 

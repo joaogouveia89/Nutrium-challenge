@@ -73,7 +73,8 @@ fun NavigationGraph(navController: NavHostController) {
                 uiState = uiState,
                 isAboutMeExpanded = isAboutMeExpanded,
                 onAboutMeExpandCollapseClick = { isAboutMeExpanded = !isAboutMeExpanded },
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                onErrorRetryClick = { viewModel.execute(ProfessionalDetailsCommand.OnErrorRetry) }
             )
         }
     }
