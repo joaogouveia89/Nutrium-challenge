@@ -20,10 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.R
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ProfessionalRatingBar
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.ktx.bottomBorder
@@ -52,7 +54,7 @@ fun ProfessionalDetailsContent(
                     modifier = Modifier
                         .clickable { onBackClick() },
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back"
+                    contentDescription = null
                 )
                 Row(
                     modifier = Modifier
@@ -62,7 +64,7 @@ fun ProfessionalDetailsContent(
                     AsyncImage(
                         modifier = Modifier.size(80.dp),
                         model = professional.profilePictureUrl,
-                        contentDescription = "Profile Picture"
+                        contentDescription = null
                     )
                     Column {
                         Text(
@@ -88,7 +90,12 @@ fun ProfessionalDetailsContent(
         ExpandCollapseButton(
             modifier = Modifier
                 .align(Alignment.End),
-            text = if (isAboutMeExpanded) "collapse" else "show more",
+            text = stringResource(
+                if (isAboutMeExpanded)
+                    R.string.professional_details_collapse
+                else
+                    R.string.professional_details_show_more
+            ),
             icon = if (isAboutMeExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
             onClick = onAboutMeExpandCollapseClick
         )

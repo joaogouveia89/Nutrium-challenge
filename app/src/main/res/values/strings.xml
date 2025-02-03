@@ -3,4 +3,6 @@
     <string name="professional_list_error_loading">Error occurred while loading the list.</string>
     <string name="professional_list_error_button_retry">Retry</string>
     <string name="professional_list_error_appending">Error on loading more content</string>
+    <string name="professional_details_collapse">collapse</string>
+    <string name="professional_details_show_more">show more</string>
 </resources>
