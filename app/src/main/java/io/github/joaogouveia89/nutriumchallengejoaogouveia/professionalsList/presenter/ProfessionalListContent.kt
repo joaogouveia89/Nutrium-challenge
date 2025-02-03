@@ -34,11 +34,14 @@ import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.com
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.filterTypeEntries
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.professionalsPageFlow
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.viewModel.FilterType
 
 @Composable
 fun ProfessionalListContent(
-    uiState: ProfessionalListUiState,
+    professionals: LazyPagingItems<Professional>,
+    refreshState: LoadState,
+    appendState: LoadState,
+    currentFilterType: FilterType,
     filterTypesEntries: List<String>,
     onProfessionalClick: (Professional) -> Unit,
     onErrorRetryClick: () -> Unit,
@@ -46,13 +49,11 @@ fun ProfessionalListContent(
 ) {
     var isDialogShow by remember { mutableStateOf(false) }
 
-    val professionalsPaging = uiState.professionals.collectAsLazyPagingItems()
+    val isLoadingRefresh = refreshState is LoadState.Loading
+    val isAppending = appendState is LoadState.Loading
 
-    val isLoadingRefresh = professionalsPaging.loadState.refresh is LoadState.Loading
-    val isAppending = professionalsPaging.loadState.append is LoadState.Loading
-
-    val isErrorRefresh = professionalsPaging.loadState.refresh is LoadState.Error
-    val isErrorAppending = professionalsPaging.loadState.append is LoadState.Error
+    val isErrorRefresh = refreshState is LoadState.Error
+    val isErrorAppending = appendState is LoadState.Error
 
     if (isErrorRefresh) {
         GenericErrorScreen(
@@ -79,7 +80,7 @@ fun ProfessionalListContent(
                         .clickable { isDialogShow = true },
                     options = filterTypesEntries,
                     isDialogShow = isDialogShow,
-                    selectedIndex = uiState.filterType.ordinal,
+                    selectedIndex = currentFilterType.ordinal,
                     onChose = {
                         onFilterTypeSelected(it)
                         isDialogShow = false
@@ -90,7 +91,7 @@ fun ProfessionalListContent(
                     LoadingContent()
                 } else {
                     ListContent(
-                        professionalsPaging = professionalsPaging,
+                        professionalsPaging = professionals,
                         onProfessionalClick = onProfessionalClick,
                         isAppending = isAppending
                     )
@@ -157,10 +158,86 @@ private fun LoadingContent() {
 @Preview(showBackground = true)
 @Composable
 private fun ProfessionalListContentPreview() {
+
+    val professionals = professionalsPageFlow.collectAsLazyPagingItems()
+
     ProfessionalListContent(
-        uiState = ProfessionalListUiState(
-            professionals = professionalsPageFlow
-        ),
+        professionals = professionals,
+        refreshState = LoadState.NotLoading(true),
+        appendState = professionals.loadState.append,
+        currentFilterType = FilterType.BEST_MATCH,
+        onProfessionalClick = {},
+        filterTypesEntries = filterTypeEntries,
+        onFilterTypeSelected = {},
+        onErrorRetryClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfessionalListContentLoadingRefreshPreview() {
+
+    val professionals = professionalsPageFlow.collectAsLazyPagingItems()
+
+    ProfessionalListContent(
+        professionals = professionals,
+        refreshState = LoadState.Loading,
+        appendState = LoadState.NotLoading(false),
+        currentFilterType = FilterType.BEST_MATCH,
+        onProfessionalClick = {},
+        filterTypesEntries = filterTypeEntries,
+        onFilterTypeSelected = {},
+        onErrorRetryClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfessionalListContentLoadingAppendPreview() {
+
+    val professionals = professionalsPageFlow.collectAsLazyPagingItems()
+
+    ProfessionalListContent(
+        professionals = professionals,
+        refreshState = LoadState.NotLoading(true),
+        appendState = LoadState.Loading,
+        currentFilterType = FilterType.BEST_MATCH,
+        onProfessionalClick = {},
+        filterTypesEntries = filterTypeEntries,
+        onFilterTypeSelected = {},
+        onErrorRetryClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfessionalListContentErrorRefreshPreview() {
+
+    val professionals = professionalsPageFlow.collectAsLazyPagingItems()
+
+    ProfessionalListContent(
+        professionals = professionals,
+        refreshState = LoadState.Error(Throwable()),
+        appendState = LoadState.NotLoading(true),
+        currentFilterType = FilterType.BEST_MATCH,
+        onProfessionalClick = {},
+        filterTypesEntries = filterTypeEntries,
+        onFilterTypeSelected = {},
+        onErrorRetryClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfessionalListContentErrorAppendPreview() {
+
+    val professionals = professionalsPageFlow.collectAsLazyPagingItems()
+
+    ProfessionalListContent(
+        professionals = professionals,
+        refreshState = LoadState.NotLoading(true),
+        appendState = LoadState.Error(Throwable()),
+        currentFilterType = FilterType.BEST_MATCH,
         onProfessionalClick = {},
         filterTypesEntries = filterTypeEntries,
         onFilterTypeSelected = {},
