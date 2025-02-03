@@ -28,11 +28,11 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.R
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.model.Professional
+import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.GenericErrorScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.ErrorSnackBar
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.components.MultipleChoiceSelect
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.filterTypeEntries
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.previews.professionalsPageFlow
-import io.github.joaogouveia89.nutriumchallengejoaogouveia.core.presentation.GenericErrorScreen
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.components.ProfessionalListItem
 import io.github.joaogouveia89.nutriumchallengejoaogouveia.professionalsList.presenter.state.ProfessionalListUiState
 

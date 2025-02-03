@@ -26,7 +26,7 @@ fun ProfessionalDetailsScreen(
         ) {
             CircularProgressIndicator()
         }
-    } else if(uiState.isError){
+    } else if (uiState.isError) {
         GenericErrorScreen(
             errorMessage = stringResource(R.string.professional_details_loading_error),
             onRetryClick = {}

@@ -14,7 +14,7 @@ class ProfessionalDetailsRepositoryImpl @Inject constructor(
         val professional = remoteSource.getProfessionalDetails(id)
         if (professional == null) {
             emit(GetDetailsState.SourceError)
-        }else{
+        } else {
             emit(GetDetailsState.Success(professional))
         }
     }

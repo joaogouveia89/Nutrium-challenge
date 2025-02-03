@@ -14,15 +14,15 @@ class ProfessionalDetailsRemoteSourceImpl @Inject constructor(
     override suspend fun getProfessionalDetails(id: Long): Professional? {
         return try {
             service.getProfessional(id).asProfessional()
-        }catch (exception: Exception){
-            if(BuildConfig.DEBUG){
+        } catch (exception: Exception) {
+            if (BuildConfig.DEBUG) {
                 Log.e(TAG, exception.toString())
             }
             null
         }
     }
 
-    companion object{
+    companion object {
         val TAG: String = this::class.java.declaringClass.simpleName
     }
 }
