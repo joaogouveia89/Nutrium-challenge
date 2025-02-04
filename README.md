@@ -29,7 +29,6 @@ The project follows **MVVM (Model-View-ViewModel)** architecture with a modular 
 
 - I thought about using Room for caching the lists, but it seemed complicated due to the various types of sorting involved. So, I decided to store the data in memory with a map, providing smoother loading, while minimizing the possibility of inconsistency between local and remote data. Since the runtime will usually not be long enough to create significant differences between the lists, I think this approach should work. However, I still need to consider adding a cache expiration time, like 5 minutes or something similar.
 The project also leverages **Hilt for Dependency Injection**, **Paging 3 for infinite scrolling**, and **Coroutines for asynchronous operations**.
-
 ---
 
 ## Edge Cases and Considerations
@@ -55,7 +54,7 @@ The project also leverages **Hilt for Dependency Injection**, **Paging 3 for inf
 ---
 
 ## 🖼️ Screenshots
-(*Add screenshots of the app here*)
+![Captura de ecrã 2025-02-04, às 16.14.51.png](screenshots/Captura%20de%20ecra%CC%83%202025-02-04%2C%20a%CC%80s%2016.14.51.png) ![details.gif](screenshots/details.gif)
 
 ---
 
