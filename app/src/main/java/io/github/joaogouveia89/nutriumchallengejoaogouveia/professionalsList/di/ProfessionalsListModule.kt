@@ -25,7 +25,7 @@ object ProfessionalsListModule {
 
     @Provides
     @Singleton
-    fun provideRandomUserRepository(
+    fun provideProfessionalsRepository(
         remoteSource: ProfessionalsRemoteSource,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): ProfessionalsRepository = ProfessionalsRepositoryImpl(

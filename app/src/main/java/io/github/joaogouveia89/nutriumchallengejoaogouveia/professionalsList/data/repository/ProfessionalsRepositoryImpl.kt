@@ -13,10 +13,9 @@ import javax.inject.Inject
 
 class ProfessionalsRepositoryImpl @Inject constructor(
     private val professionalsRemoteSource: ProfessionalsRemoteSource,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val cachedProfessionals: MutableMap<String, MutableMap<Int, List<Professional>>> = mutableMapOf()
 ) : ProfessionalsRepository {
-
-    private val cachedProfessionals = mutableMapOf<String, MutableMap<Int, List<Professional>>>()
 
     override fun getProfessionals(
         filterType: String,
