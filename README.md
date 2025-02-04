@@ -40,6 +40,8 @@ The project also leverages **Hilt for Dependency Injection**, **Paging 3 for inf
 
 - I thought about using Room for caching the lists, but it seemed complicated due to the various types of sorting involved. So, I decided to store the data in memory with a map, providing smoother loading, while minimizing the possibility of inconsistency between local and remote data. Since the runtime will usually not be long enough to create significant differences between the lists, I think this approach should work. However, I still need to consider adding a cache expiration time, like 5 minutes or something similar.
 
+- Caching improvement idea(not implemented): Store a list of all professionals in memory and a map with filter and professionals ids. To return the result list we must fetch the professionals list for the ids on each filter type. This helps saving a lot of memory because we are not duplicating professionals objects and we are storing for each filter type a list of ids
+
 ---
 
 ## Edge Cases and Considerations
