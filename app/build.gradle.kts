@@ -35,8 +35,6 @@ android {
 }
 
 dependencies {
-
-    testImplementation(libs.byte.buddy)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -66,22 +64,11 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    // Room
-    implementation(libs.androidx.room.runtime)
-
-    //noinspection KaptUsageInsteadOfKsp
-    kapt(libs.androidx.room.compiler)
-
-    implementation(libs.androidx.room.ktx)
-
     // Paging3
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
     testImplementation(libs.androidx.paging.testing)
 
-
-
-    testImplementation(libs.androidx.room.testing)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
