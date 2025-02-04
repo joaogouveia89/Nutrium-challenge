@@ -16,6 +16,16 @@ The app fetches data from a provided HTTP API and supports offline functionality
 
 ---
 
+---
+
+## ▶️ To Run
+![proflist.png](screenshots/proflist.png) ![details.gif](screenshots/details.gif)
+
+-  Run the server locally
+- Run the application on IDE
+- If you want to simulate an error just kill the local server and check the app behavior
+---
+
 ## 🏗️ Architecture
 
 The project follows **MVVM (Model-View-ViewModel)** architecture with a modular and scalable structure:
@@ -54,7 +64,7 @@ The project also leverages **Hilt for Dependency Injection**, **Paging 3 for inf
 ---
 
 ## 🖼️ Screenshots
-![proflist.png](screenshots/proflist.png)! [details.gif](screenshots/details.gif)
+![proflist.png](screenshots/proflist.png) ![details.gif](screenshots/details.gif)
 
 ---
 
