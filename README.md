@@ -19,7 +19,6 @@ The app fetches data from a provided HTTP API and supports offline functionality
 ---
 
 ## ▶️ To Run
-![proflist.png](screenshots/proflist.png) ![details.gif](screenshots/details.gif)
 
 -  Run the server locally
 - Run the application on IDE
@@ -35,10 +34,12 @@ The project follows **MVVM (Model-View-ViewModel)** architecture with a modular 
 - **Repository Layer**: Bridges the UI and Data layers, providing a clean API for accessing and caching data.
 - **Data Layer** (Retrofit): Handles network requests.
 
+The project also leverages **Hilt for Dependency Injection**, **Paging 3 for infinite scrolling**, and **Coroutines for asynchronous operations**.
+
 ### Caching
 
 - I thought about using Room for caching the lists, but it seemed complicated due to the various types of sorting involved. So, I decided to store the data in memory with a map, providing smoother loading, while minimizing the possibility of inconsistency between local and remote data. Since the runtime will usually not be long enough to create significant differences between the lists, I think this approach should work. However, I still need to consider adding a cache expiration time, like 5 minutes or something similar.
-The project also leverages **Hilt for Dependency Injection**, **Paging 3 for infinite scrolling**, and **Coroutines for asynchronous operations**.
+
 ---
 
 ## Edge Cases and Considerations
